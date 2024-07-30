@@ -1,0 +1,53 @@
+.logo {
+  max-width: 250px;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  // max-width: 600px;
+  margin: 0 auto;
+}
+.btn-group{
+  margin-right: 30px;
+
+  .dropdown-toggle{
+    padding: 20px;
+    font-weight: bold;
+  }
+  //
+}
+
+.card {
+  height: 100%;
+}
+
+.btn-purple {
+  background-color: #8000ff;
+  color: white;
+}
+
+.btn-purple:hover {
+  background-color: #6a00cc;
+  color: white;
+}
+
+.btn-green {
+  background-color: #00ffaf;
+  color: white;
+}
+
+.btn-green:hover {
+  background-color: #00cc8a;
+  color: white;
+}
+
+.btn-red {
+  background-color: #ff004f;
+  color: white;
+}
+
+.btn-red:hover {
+  background-color: #cc003e;
+  color: white;
+}
+
