@@ -9,129 +9,73 @@
     </div>
   </div>
   <div class="d-flex mb-4">
-    <!-- Dropdown Coco -->
+    <!-- Dropdown Ingredients -->
     <div class="btn-group mr-2">
-      <button type="button" class="btn btn-purple dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        Ingredients
+      <button type="button" class="btn btn-purple" (click)="toggleDropdown('ingredients')" data-bs-toggle="dropdown" aria-expanded="false">
+        Ingredients <i class="fas" [ngClass]="{'fa-angle-down': !dropdowns.ingredients, 'fa-angle-up': dropdowns.ingredients}"></i>
       </button>
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Separated link</a></li>
+      <ul class="dropdown-menu" [class.show]="dropdowns.ingredients" style="max-height: 200px; overflow-y: auto;">
+        @for (item of ingredientList; track $index) {
+          @for (ingredient of item.ingredients; track $index) {
+            <li><a class="dropdown-item" href="#">{{ ingredient.ingredient }}</a></li>
+          }
+        }
       </ul>
     </div>
 
-
     <!-- Dropdown Appareils -->
     <div class="btn-group mr-2">
-      <button type="button" class="btn btn-green dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        Appareils
+      <button type="button" class="btn btn-green" (click)="toggleDropdown('appareils')" data-bs-toggle="dropdown" aria-expanded="false">
+        Appareils <i class="fas" [ngClass]="{'fa-angle-down': !dropdowns.appareils, 'fa-angle-up': dropdowns.appareils}"></i>
       </button>
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Separated link</a></li>
-      </ul>
+      <ul class="dropdown-menu" [class.show]="dropdowns.appareils" style="max-height: 200px; overflow-y: auto;">
+        @for (item of appareilList; track $index) {
+          <li><a class="dropdown-item" href="#">{{ item.appliance }}</a></li>
+        }
+        </ul>
     </div>
 
     <!-- Dropdown Ustensiles -->
     <div class="btn-group mr-2">
-      <button type="button" class="btn btn-red dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        Ustensiles
+      <button type="button" class="btn btn-red" (click)="toggleDropdown('ustensiles')" data-bs-toggle="dropdown" aria-expanded="false">
+        Ustensiles <i class="fas" [ngClass]="{'fa-angle-down': !dropdowns.ustensiles, 'fa-angle-up': dropdowns.ustensiles}"></i>
       </button>
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Separated link</a></li>
+      <ul class="dropdown-menu" [class.show]="dropdowns.ustensiles" style="max-height: 200px; overflow-y: auto;">
+        @for (item of data; track $index) {
+          @for (itemU of item.ustensils; track $index) {
+            <li><a class="dropdown-item" href="#">{{ itemU }}</a></li>
+          }
+
+        }
       </ul>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Limonade de Coco</h5>
-          <p class="card-text">
-            <small>Lait de coco: 400ml</small><br>
-            <small>Jus de citron: 2</small><br>
-            <small>Crème de coco: 4 cuillères</small><br>
-            <small>Sucre: 20g</small><br>
-            <small>Glacons: 2</small>
-          </p>
-          <p class="card-text">Mettre les glaçons à votre goût dans le blender, ajouter le lait, la crème de coco, le
-            jus de citrons et le sucre. Mixer jusqu'à avoir la consistance désirée.</p>
-          <p class="card-text"><small class="text-muted"><i class="far fa-clock"></i> 10 min</small></p>
+    <!-- Card 1 -->
+     @for (item of data; track $index) {
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-img-top"></div>
+          <div class="card-body">
+            <div class="card-body-title mb-3">
+              <h5 class="card-title">{{ item.name }}</h5>
+              <div class="recipe-time"><i class="far fa-clock"></i> {{ item.time }} min</div>
+            </div>
+            <div class="card-text-content card-body-title">
+              <p class="card-text">
+                @for (ingredient of item.ingredients; track $index) {
+                  <strong>{{ ingredient.ingredient }}:</strong> {{ ingredient.quantity }}{{ ingredient.unit }}<br>
+                }
+              </p>
+              <p class="card-text" style="max-height: 90px; overflow-y: auto; max-width: 40%;">{{ item.description }}</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Poisson Cru à la tahitienne</h5>
-          <p class="card-text">
-            <small>Thon Rouge (ou blanc): 200g</small><br>
-            <small>Concombre: 1</small><br>
-            <small>Tomate: 2</small><br>
-            <small>Carotte: 1</small><br>
-            <small>Citron Vert: 5</small><br>
-            <small>Lait de coco: 100ml</small>
-          </p>
-          <p class="card-text">Découper le thon en dés, mettre dans un plat et recouvrir de jus de citron vert (mieux
-            vaut prendre un plat large et peu profond). Laisser reposer au réfrigérateur au moins 2 heures. Ajouter les
-            légumes et le lait de coco.</p>
-          <p class="card-text"><small class="text-muted"><i class="far fa-clock"></i> 60 min</small></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Poulet coco réunionnais</h5>
-          <p class="card-text">
-            <small>Poulet: 1</small><br>
-            <small>Lait de coco: 400ml</small><br>
-            <small>Coulis de tomate: 25cl</small><br>
-            <small>Oignon: 1</small><br>
-            <small>Poivron rouge: 1</small><br>
-            <small>Huile d'olive</small>
-          </p>
-          <p class="card-text">Découper le poulet en morceaux, les faire dorer dans une cocotte avec de l'huile d'olive.
-            Saler et poivrer. Une fois dorés, laisser cuire en ajoutant de l'eau. Au bout de 10 min, ajouter le lait de
-            coco.</p>
-          <p class="card-text"><small class="text-muted"><i class="far fa-clock"></i> 80 min</small></p>
-        </div>
-      </div>
-    </div>
-    <!-- Ajoutez ici plus de cartes pour les autres recettes de la même manière -->
+     }
+
   </div>
 </div>
 
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
-
-
-<!--  -->
-<div class="btn-group">
-  <button type="button" class="btn btn-danger">Action</button>
-  <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-    <span class="visually-hidden">Toggle Dropdown</span>
-  </button>
-  <ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="#">Action</a></li>
-    <li><a class="dropdown-item" href="#">Another action</a></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="#">Separated link</a></li>
-  </ul>
-</div>

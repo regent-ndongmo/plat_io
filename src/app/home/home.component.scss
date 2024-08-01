@@ -17,9 +17,33 @@
   //
 }
 
-.card {
-  height: 100%;
+.card-img-top {
+  background-color: #d3c2c2;
+  height: 150px;
 }
+.card-text {
+  font-size: 0.9rem;
+}
+.recipe-time {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+.recipe-time i {
+  margin-right: 5px;
+}
+
+.card-body-title{
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn{
+  border-radius: 0 20px 20px 0;
+}
+// .fas{
+//   border-radius: 0 20px 20px 0;
+// }
 
 .btn-purple {
   background-color: #8000ff;
