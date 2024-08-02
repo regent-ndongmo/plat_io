@@ -8,6 +8,22 @@
       <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
     </div>
   </div>
+
+
+    <!--  -->
+  @if (selected) {
+    <div class="mt-4 mb-4">
+      <div class="btn-custom">
+        <span class="btn-label">{{ selected }}</span>
+        <span class="">
+          <i class="fas fa-times m-1" (click)="ngOnInit()"></i>
+        </span>
+      </div>
+    </div>
+  }
+
+
+
   <div class="d-flex mb-4">
     <!-- Dropdown Ingredients -->
     <div class="btn-group mr-2">
@@ -30,7 +46,7 @@
       </button>
       <ul class="dropdown-menu" [class.show]="dropdowns.appareils" style="max-height: 200px; overflow-y: auto;">
         @for (item of appareilList; track $index) {
-          <li><a class="dropdown-item" href="#">{{ item.appliance }}</a></li>
+          <li><a class="dropdown-item" (click)="searchAppareil(item.appliance)">{{ item.appliance }}</a></li>
         }
         </ul>
     </div>
@@ -43,7 +59,7 @@
       <ul class="dropdown-menu" [class.show]="dropdowns.ustensiles" style="max-height: 200px; overflow-y: auto;">
         @for (item of data; track $index) {
           @for (itemU of item.ustensils; track $index) {
-            <li><a class="dropdown-item" href="#">{{ itemU }}</a></li>
+            <li><a class="dropdown-item" (click)="searchUstensils(itemU)">{{ itemU }}</a></li>
           }
 
         }
