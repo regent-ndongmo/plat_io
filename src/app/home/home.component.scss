@@ -5,6 +5,18 @@ a{
   max-width: 250px;
   margin-bottom: 20px;
 }
+.list-group {
+  // position: absolute;
+  // width: auto;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: scroll;
+  margin-bottom: 50px;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
 
 .input-group {
   // max-width: 600px;

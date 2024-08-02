@@ -22,7 +22,10 @@ export class HomeComponent implements OnInit {
   ingredientList : any;
   appareilList : any;
   ustensilsList: any
-  selected: string = ''
+  selected: string = '';
+  searchQuery: string = '';
+  filteredResults: any[] = [];
+  showSuggestions: boolean = false;
 
   constructor(private service: ServiceService) { }
 
@@ -30,7 +33,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.selected = ''
     this.loadData();
-    this.getIngredient();
+    this.getIngredients();
     this.getAppareil()
   }
 
@@ -50,18 +53,27 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  getIngredient(){
-    // Filtrer les données pour n'avoir qu'un seul élément par nom
-    this.service.getData().subscribe(data => {
-      this.ingredientList = data.reduce((acc:any, curr:any) => {
-        if (!acc.some((item:any) => item.ingredients === curr.ingredients)) {
-          acc.push(curr);
-        }
-        return acc;
-      }, []);
-      console.log(this.ingredientList)
-    })
+  getIngredients() {
+    this.service.getData().subscribe(
+      data => {
+        const ingredientsSet = new Set<string>();
 
+        data.forEach((item: any) => {
+          item.ingredients.forEach((ingredient: any) => {
+            ingredientsSet.add(ingredient.ingredient);
+          });
+        });
+
+        const uniqueIngredients = Array.from(ingredientsSet);
+        console.log("uniqueIngredients", uniqueIngredients);
+
+        // Vous pouvez utiliser uniqueIngredients comme vous le souhaitez
+        this.ingredientList = uniqueIngredients; // Par exemple, pour l'afficher dans le template
+      },
+      error => {
+        console.error('Error loading JSON data', error);
+      }
+    );
   }
 
   getAppareil(){
@@ -78,9 +90,60 @@ export class HomeComponent implements OnInit {
 
   }
 
-  searchUstensils(ustensil: string){
-    console.log(ustensil)
+  searchIngredient(ingredient: string) {
+    console.log(ingredient);
+    this.selected = ingredient;
+    this.service.getData().subscribe(
+      data => {
+        this.data = data.sort((a: any, b: any) => {
+          const aHasIngredient = a.ingredients.some((ing: any) => ing.ingredient === ingredient);
+          const bHasIngredient = b.ingredients.some((ing: any) => ing.ingredient === ingredient);
+
+          if (aHasIngredient && !bHasIngredient) {
+            return -1;
+          } else if (!aHasIngredient && bHasIngredient) {
+            return 1;
+          } else {
+            return a.name.localeCompare(b.name);
+          }
+        });
+
+        console.log(this.data);
+      },
+      error => {
+        console.error('Error loading JSON data', error);
+      }
+    );
   }
+
+  searchUstensils(ustensil: string) {
+    console.log(ustensil);
+    this.selected = ustensil;
+    this.service.getData().subscribe(
+      data => {
+        // Trier les données en mettant les éléments avec l'ustensile sélectionné en premier
+        this.data = data.sort((a: any, b: any) => {
+          const aHasUstensil = a.ustensils.includes(ustensil);
+          const bHasUstensil = b.ustensils.includes(ustensil);
+
+          if (aHasUstensil && !bHasUstensil) {
+            return -1; // a doit être placé avant b
+          } else if (!aHasUstensil && bHasUstensil) {
+            return 1; // b doit être placé avant a
+          } else {
+            // Trier le reste par ordre alphabétique
+            return 0;
+          }
+        });
+
+        console.log(this.data);
+      },
+      error => {
+        console.error('Error loading JSON data', error);
+      }
+    );
+  }
+
   searchAppareil(appareil: string){
     this.selected = appareil;
     this.service.getData().subscribe(
@@ -101,6 +164,41 @@ export class HomeComponent implements OnInit {
         console.error('Error loading JSON data', error);
       }
     );
+  }
+
+  //
+  onSearch(event: any) {
+    const query = event.target.value.toLowerCase();
+    if (query.length >= 3) {
+      this.filteredResults = this.data.filter((item: any) =>
+        item.name.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query) ||
+        item.ingredients.some((ing: any) => ing.ingredient.toLowerCase().includes(query))
+      );
+      this.showSuggestions = this.filteredResults.length > 0;
+    } else {
+      this.showSuggestions = false;
+    }
+  }
+
+  selectResult(result: any) {
+    this.searchQuery = result.name
+    this.selected = result.name
+    // console.log("", this.selected)
+    console.log(result); // Gérer la sélection de l'utilisateur ici
+    this.data = [result];
+    this.showSuggestions = false; // Masquer les suggestions après sélection
+  }
+
+  onFocus() {
+    this.showSuggestions = this.filteredResults.length > 0;
+  }
+
+  onBlur() {
+    // Ajoutez un petit délai pour permettre à l'événement de clic de se déclencher avant de masquer les suggestions
+    setTimeout(() => {
+      this.showSuggestions = false;
+    }, 200);
   }
 
 }

@@ -2,11 +2,29 @@
   <header class="my-4  text-center">
     <img src="assets/logo.png" alt="Les petits plats" class="logo">
   </header>
-  <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Rechercher une recette">
+  <div class="input-group mb-3" (focusin)="onFocus()" (focusout)="onBlur()">
+    <input type="text" class="form-control" placeholder="Rechercher titre, ingrédients ou description."
+           [(ngModel)]="searchQuery" (input)="onSearch($event)">
     <div class="input-group-append">
       <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
     </div>
+  </div>
+
+  <div class="position-relative">
+    <ul class="list-group position-absolute w-100" *ngIf="filteredResults.length > 0 && showSuggestions">
+      @for (result of filteredResults; track $index) {
+        <li class="list-group-item list-group-item-action" (click)="selectResult(result)">
+          {{ result.name }}
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="selectResult(result)">
+          {{ result.ingredient }}
+        </li>
+        <li class="list-group-item list-group-item-action" (click)="selectResult(result)">
+          {{ result.description }}
+        </li>
+      }
+
+    </ul>
   </div>
 
 
@@ -32,9 +50,7 @@
       </button>
       <ul class="dropdown-menu" [class.show]="dropdowns.ingredients" style="max-height: 200px; overflow-y: auto;">
         @for (item of ingredientList; track $index) {
-          @for (ingredient of item.ingredients; track $index) {
-            <li><a class="dropdown-item" href="#">{{ ingredient.ingredient }}</a></li>
-          }
+          <li><a class="dropdown-item" (click)="searchIngredient(item)">{{ item }}</a></li>
         }
       </ul>
     </div>
