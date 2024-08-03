@@ -3,28 +3,42 @@
     <img src="assets/logo.png" alt="Les petits plats" class="logo">
   </header>
   <div class="input-group mb-3" (focusin)="onFocus()" (focusout)="onBlur()">
-    <input type="text" class="form-control" placeholder="Rechercher titre, ingrédients ou description."
+    <input type="search" class="form-control" placeholder="Rechercher titre, ingrédients ou description."
            [(ngModel)]="searchQuery" (input)="onSearch($event)">
     <div class="input-group-append">
-      <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+      <button class="btn btn-outline-secondary" (click)="nativeSearch()" type="button"><i class="fas fa-search"></i></button>
     </div>
   </div>
 
-  <div class="position-relative">
-    <ul class="list-group position-absolute w-100" *ngIf="filteredResults.length > 0 && showSuggestions">
-      @for (result of filteredResults; track $index) {
-        <li class="list-group-item list-group-item-action" (click)="selectResult(result)">
-          {{ result.name }}
-        </li>
-        <li class="list-group-item list-group-item-action" (click)="selectResult(result)">
-          {{ result.ingredient }}
-        </li>
-        <li class="list-group-item list-group-item-action" (click)="selectResult(result)">
-          {{ result.description }}
-        </li>
-      }
+  <div class="position-relative showSuggestions">
+    @if (filteredResults.length > 0 && showSuggestions) {
+      <ul class="list-group w-100">
+        @for (result of filteredResults; track $index) {
+          <li class="list-group-item list-group-item-action" (click)="selectResult(result)">
+            {{ result.name }}
+          </li>
+          @for (item of result.ingredients; track $index) {
+            <li class="list-group-item list-group-item-action" (click)="selectResult(result)">
+              {{ item.ingredient }}
+            </li>
+          }
 
-    </ul>
+          <li class="list-group-item list-group-item-action" (click)="selectResult(result)">
+            {{ result.description }}
+          </li>
+        }
+
+      </ul>
+    }
+    @if(filteredResults.length === 0 && showSuggestions) {
+      <ul class="list-group w-100">
+        <li class="list-group-item list-group-item-action">
+          Aucune recette ne correspond a votre recherche
+        </li>
+      </ul>
+    }
+
+
   </div>
 
 

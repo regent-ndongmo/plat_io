@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit() {
+    this.searchQuery = '';
     this.selected = ''
     this.loadData();
     this.getIngredients();
@@ -168,6 +169,7 @@ export class HomeComponent implements OnInit {
 
   //
   onSearch(event: any) {
+
     const query = event.target.value.toLowerCase();
     if (query.length >= 3) {
       this.filteredResults = this.data.filter((item: any) =>
@@ -175,14 +177,20 @@ export class HomeComponent implements OnInit {
         item.description.toLowerCase().includes(query) ||
         item.ingredients.some((ing: any) => ing.ingredient.toLowerCase().includes(query))
       );
-      this.showSuggestions = this.filteredResults.length > 0;
-    } else {
-      this.showSuggestions = false;
+      // this.showSuggestions = this.filteredResults.length > 0;
+      this.showSuggestions = true
+
+      if(!this.filteredResults){
+        this.filteredResults = [];
+      }
+    }
+    else{
+      this.showSuggestions = false
     }
   }
 
   selectResult(result: any) {
-    this.searchQuery = result.name
+    this.searchQuery = result.name || result.ingredient || result.description;
     this.selected = result.name
     // console.log("", this.selected)
     console.log(result); // Gérer la sélection de l'utilisateur ici
@@ -199,6 +207,39 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.showSuggestions = false;
     }, 200);
+  }
+
+
+  nativeSearch(){
+    this.showSuggestions = !this.showSuggestions;
+    console.log(this.searchQuery)
+    if (this.searchQuery.length >= 3) {
+      this.selected = this.searchQuery
+      let results = [];
+      for (let i = 0; i < this.data.length; i++) {
+        const item = this.data[i];
+        if (item.name.toLowerCase().includes(this.searchQuery) || item.description.toLowerCase().includes(this.searchQuery)) {
+          results.push(item);
+        } else {
+          for (let j = 0; j < item.ingredients.length; j++) {
+            const ing = item.ingredients[j];
+            if (ing.ingredient.toLowerCase().includes(this.searchQuery)) {
+              results.push(item);
+              break;
+            }
+          }
+        }
+      }
+      console.log("result : ", results)
+      this.filteredResults = results;
+      this.data = results
+      this.showSuggestions = true;
+      if(!this.filteredResults){
+        this.filteredResults = [];
+      }
+    } else {
+      this.showSuggestions = false;
+    }
   }
 
 }
