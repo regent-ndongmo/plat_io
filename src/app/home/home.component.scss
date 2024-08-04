@@ -6,6 +6,39 @@ a{
   margin-bottom: 20px;
 }
 
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #e5e5e5;
+  border-radius: 8px;
+  padding: 8px;
+  width: 100%;
+  // max-width: 800px;
+  margin: auto;
+}
+
+.search-container input[type="text"] {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  flex-grow: 1;
+  font-size: 16px;
+  padding: 8px;
+  color: #333;
+}
+
+.search-container button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.search-container button svg {
+  fill: #333;
+  width: 20px;
+  height: 20px;
+}
+
 // .showSuggestions{
 //   margin-top: -50px;
 // }
@@ -67,6 +100,10 @@ a{
 .card-img-top {
   background-color: #d3c2c2;
   height: 150px;
+}
+
+.card-body{
+  background-color: #f2f2f2;
 }
 .card-text {
   font-size: 0.9rem;

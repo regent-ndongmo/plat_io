@@ -2,12 +2,21 @@
   <header class="my-4  text-center">
     <img src="assets/logo.png" alt="Les petits plats" class="logo">
   </header>
-  <div class="input-group mb-3" (focusin)="onFocus()" (focusout)="onBlur()">
+  <!-- <div class="input-group mb-3" (focusin)="onFocus()" (focusout)="onBlur()">
     <input type="search" class="form-control" placeholder="Rechercher titre, ingrédients ou description."
            [(ngModel)]="searchQuery" (input)="onSearch($event)">
     <div class="input-group-append">
       <button class="btn btn-outline-secondary" (click)="nativeSearch()" type="button"><i class="fas fa-search"></i></button>
     </div>
+  </div> -->
+
+  <div class="search-container" (focusin)="onFocus()" (focusout)="onBlur()">
+    <input type="text" placeholder="Rechercher une recette" [(ngModel)]="searchQuery" (input)="onSearch($event)">
+    <button (click)="nativeSearch()">
+        <svg viewBox="0 0 24 24">
+            <path d="M10 2a8 8 0 105.293 14.707l5.657 5.657 1.414-1.414-5.657-5.657A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/>
+        </svg>
+    </button>
   </div>
 
   <div class="position-relative showSuggestions">
@@ -56,7 +65,7 @@
 
 
 
-  <div class="d-flex mb-4">
+  <div class="d-flex mb-4 mt-4">
     <!-- Dropdown Ingredients -->
     <div class="btn-group mr-2">
       <button type="button" class="btn btn-purple" (click)="toggleDropdown('ingredients')" data-bs-toggle="dropdown" aria-expanded="false">
