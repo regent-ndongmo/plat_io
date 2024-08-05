@@ -5,6 +5,29 @@ a{
   max-width: 250px;
   margin-bottom: 20px;
 }
+@media (max-width: 900px){
+  .list, .btn-group{
+    flex-wrap: wrap;
+    margin: 10px 0 10px 0;
+    align-items: center;
+    // width: 100%;
+  }
+  .btn-custom, .btn-label{
+    // padding: 150%;
+    color: red;
+  }
+}
+
+.dropdown-menu{
+  padding-top: -50px;
+  width: 100%;
+}
+.dropdown-item{
+  color: #fff;
+  &:hover{
+    color: #927272;
+  }
+}
 
 .search-container {
   display: flex;
@@ -45,10 +68,21 @@ a{
 .list-group {
   // position: absolute;
   // width: auto;
-  z-index: 1000;
+  z-index: 10;
   max-height: 200px;
   overflow-y: scroll;
   margin-bottom: 50px;
+}
+.button input[type="text"] {
+  border: none;
+  background-color: transparent;
+  flex-grow: 1;
+  text-decoration: none;
+  font-weight: bold;
+  color: #333;
+  border: none;
+  box-shadow: none;
+  outline: none;
 }
 
 .list-group-item {
@@ -61,12 +95,8 @@ a{
 }
 .btn-group{
   margin-right: 30px;
-
-  .dropdown-toggle{
-    padding: 20px;
-    font-weight: bold;
-  }
-  //
+  position: relative;
+  
 }
 
 .btn-custom {
@@ -97,9 +127,13 @@ a{
   // font-size: 0.8rem;
 }
 
+//
+.card{
+  height: 25rem;
+}
 .card-img-top {
   background-color: #d3c2c2;
-  height: 150px;
+  height: 10rem;
 }
 
 .card-body{

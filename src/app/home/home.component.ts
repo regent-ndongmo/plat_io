@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ServiceService } from '../service/service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -21,25 +21,47 @@ export class HomeComponent implements OnInit {
 
   ingredientList : any;
   appareilList : any;
-  ustensilsList: any
+  // ustensilsList: any
+  uniqueUstensilList : any;
   selected: string = '';
   searchQuery: string = '';
   filteredResults: any[] = [];
   showSuggestions: boolean = false;
+  filteredIngredientList: string[] = [];
+  filteredAppareilList: any;
+  filteredUstensilList: any;
+  ingredient = '';
+  appareils = '';
+  ustensils = '';
 
   constructor(private service: ServiceService) { }
 
 
   ngOnInit() {
+    this.filteredResults = [];
     this.searchQuery = '';
-    this.selected = ''
+    this.selected = '';
+    this.ingredient = '';
+    this.appareils = '';
+    this.ustensils = '';
     this.loadData();
     this.getIngredients();
     this.getAppareil()
+    this.getUniqueUstensils();
   }
 
   toggleDropdown(dropdown: 'ingredients' | 'appareils' | 'ustensiles') {
     this.dropdowns[dropdown] = !this.dropdowns[dropdown];
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    const targetElement = event.target as HTMLElement;
+    if (!targetElement.closest('.btn-group')) {
+      this.dropdowns.ingredients = false;
+      this.dropdowns.appareils = false;
+      this.dropdowns.ustensiles=false;
+    }
   }
 
   loadData() {
@@ -52,6 +74,26 @@ export class HomeComponent implements OnInit {
         console.error('Error loading JSON data', error);
       }
     );
+  }
+
+  getUniqueUstensils() {
+    // Assurez-vous que 'data' est bien défini et contient des objets avec la propriété 'ustensils'
+    if (this.data && Array.isArray(this.data)) {
+        // Extraire tous les ustensiles en les aplatissant en une seule liste
+        const allUstensils = this.data.flatMap((item: any) => item.ustensils);
+
+        // Filtrer les doublons en utilisant un Set
+        const uniqueUstensils = [...new Set(allUstensils)];
+
+        // Stocker les ustensiles uniques dans une liste
+        this.uniqueUstensilList = uniqueUstensils;
+        this.filteredUstensilList = uniqueUstensils
+
+        // Afficher la liste des ustensiles uniques dans la console
+        console.log("Unique Ustensils List: ", this.uniqueUstensilList);
+    } else {
+        this.uniqueUstensilList = []; // Réinitialiser si 'data' n'est pas défini ou n'est pas un tableau
+    }
   }
 
   getIngredients() {
@@ -70,6 +112,7 @@ export class HomeComponent implements OnInit {
 
         // Vous pouvez utiliser uniqueIngredients comme vous le souhaitez
         this.ingredientList = uniqueIngredients; // Par exemple, pour l'afficher dans le template
+        this.filteredIngredientList = uniqueIngredients
       },
       error => {
         console.error('Error loading JSON data', error);
@@ -87,6 +130,7 @@ export class HomeComponent implements OnInit {
         return acc;
       }, []);
       console.log(this.appareilList)
+      this.filteredAppareilList = this.appareilList
     })
 
   }
@@ -241,5 +285,52 @@ export class HomeComponent implements OnInit {
       this.showSuggestions = false;
     }
   }
+
+  //
+
+  filterIngredients(event: any) {
+    const query = event.target.value.toLowerCase();
+    console.log("ingredient: ", query)
+    this.filteredIngredientList = this.ingredientList.filter((item:any )=> item.toLowerCase().includes(query));
+    this.dropdowns.ingredients = true;
+    console.log(this.filterIngredients)
+  }
+
+  filterAppareil(event: any) {
+    const query = event.target.value.toLowerCase();
+    console.log("Appareil: ", query)
+    console.log("Appareil: ", this.appareilList)
+    this.filteredAppareilList = this.appareilList.filter((item:any )=> item.appliance.toLowerCase().includes(query));
+    this.dropdowns.appareils = true;
+    console.log(this.filteredAppareilList)
+  }
+
+  filterUstensil(event: any) {
+    const query = event.target.value.toLowerCase();
+    console.log("Ustensil query: ", query);
+
+    // Assurez-vous que 'data' est bien défini et contient des objets avec la propriété 'ustensils'
+    if (this.data && Array.isArray(this.data)) {
+        // Filtrer les ustensiles en fonction de la requête utilisateur
+        this.filteredUstensilList = this.data.flatMap((item: any) =>
+            item.ustensils.filter((ustensil: string) =>
+                ustensil.toLowerCase().includes(query)
+            )
+        );
+
+        // Éliminer les doublons
+        this.filteredUstensilList = [...new Set(this.filteredUstensilList)];
+    } else {
+        this.filteredUstensilList = []; // Réinitialiser si 'data' n'est pas défini ou n'est pas un tableau
+    }
+
+    // Mettre à jour la visibilité du menu déroulant
+    this.dropdowns.ustensiles = true;
+
+    // Afficher les résultats filtrés dans la console
+    console.log("Filtered Ustensil List: ", this.filteredUstensilList);
+}
+
+
 
 }

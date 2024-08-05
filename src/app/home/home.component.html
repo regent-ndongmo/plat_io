@@ -65,42 +65,60 @@
 
 
 
-  <div class="d-flex mb-4 mt-4">
+  <div class="list d-flex mb-4 mt-4">
     <!-- Dropdown Ingredients -->
-    <div class="btn-group mr-2">
-      <button type="button" class="btn btn-purple" (click)="toggleDropdown('ingredients')" data-bs-toggle="dropdown" aria-expanded="false">
-        Ingredients <i class="fas" [ngClass]="{'fa-angle-down': !dropdowns.ingredients, 'fa-angle-up': dropdowns.ingredients}"></i>
-      </button>
-      <ul class="dropdown-menu" [class.show]="dropdowns.ingredients" style="max-height: 200px; overflow-y: auto;">
-        @for (item of ingredientList; track $index) {
+    <div class="btn-group"  (click)="toggleDropdown('ingredients')">
+      <div class="btn btn-purple button"  data-bs-toggle="dropdown" aria-expanded="false">
+        <input type="text" (focus)="toggleDropdown('ingredients')" (input)="filterIngredients($event)"  name="" id="" placeholder="Ingredients"
+           data-bs-toggle="dropdown"
+           [(ngModel)]="ingredient"
+        >
+        <i class="fas" [ngClass]="{'fa-angle-down': !dropdowns.ingredients, 'fa-angle-up': dropdowns.ingredients}"></i>
+      </div>
+      <ul class="dropdown-menu btn-purple" [class.show]="dropdowns.ingredients" style="max-height: 200px; overflow-y: auto;">
+        @for (item of filteredIngredientList; track $index) {
           <li><a class="dropdown-item" (click)="searchIngredient(item)">{{ item }}</a></li>
+        }
+        @empty {
+          <li><a class="dropdown-item">N'existe pas</a></li>
         }
       </ul>
     </div>
 
     <!-- Dropdown Appareils -->
-    <div class="btn-group mr-2">
-      <button type="button" class="btn btn-green" (click)="toggleDropdown('appareils')" data-bs-toggle="dropdown" aria-expanded="false">
-        Appareils <i class="fas" [ngClass]="{'fa-angle-down': !dropdowns.appareils, 'fa-angle-up': dropdowns.appareils}"></i>
-      </button>
-      <ul class="dropdown-menu" [class.show]="dropdowns.appareils" style="max-height: 200px; overflow-y: auto;">
-        @for (item of appareilList; track $index) {
+    <div class="btn-group mr-2" (click)="toggleDropdown('appareils')">
+      <div type="button" class="btn btn-green button"  data-bs-toggle="dropdown" aria-expanded="false">
+        <input type="text" (focus)="toggleDropdown('appareils')" (input)="filterAppareil($event)"  name="" id="" placeholder="Ingredients"
+           data-bs-toggle="dropdown"
+           [(ngModel)]="appareils"
+        >
+        <i class="fas" [ngClass]="{'fa-angle-down': !dropdowns.appareils, 'fa-angle-up': dropdowns.appareils}"></i>
+      </div>
+      <ul class="dropdown-menu btn-green" [class.show]="dropdowns.appareils" style="max-height: 200px; overflow-y: auto;">
+        @for (item of filteredAppareilList; track $index) {
           <li><a class="dropdown-item" (click)="searchAppareil(item.appliance)">{{ item.appliance }}</a></li>
+        }
+        @empty {
+          <li><a class="dropdown-item">N'existe pas</a></li>
         }
         </ul>
     </div>
 
     <!-- Dropdown Ustensiles -->
-    <div class="btn-group mr-2">
-      <button type="button" class="btn btn-red" (click)="toggleDropdown('ustensiles')" data-bs-toggle="dropdown" aria-expanded="false">
-        Ustensiles <i class="fas" [ngClass]="{'fa-angle-down': !dropdowns.ustensiles, 'fa-angle-up': dropdowns.ustensiles}"></i>
-      </button>
-      <ul class="dropdown-menu" [class.show]="dropdowns.ustensiles" style="max-height: 200px; overflow-y: auto;">
-        @for (item of data; track $index) {
-          @for (itemU of item.ustensils; track $index) {
-            <li><a class="dropdown-item" (click)="searchUstensils(itemU)">{{ itemU }}</a></li>
-          }
-
+    <div class="btn-group mr-2" (click)="toggleDropdown('ustensiles')">
+      <div type="button" class="btn btn-red button" data-bs-toggle="dropdown" aria-expanded="false">
+        <input type="text" (focus)="toggleDropdown('ustensiles')" (input)="filterUstensil($event)"  name="" id="" placeholder="Ustensils"
+           data-bs-toggle="dropdown"
+           [(ngModel)]="ustensils"
+        >
+        <i class="fas" [ngClass]="{'fa-angle-down': !dropdowns.ustensiles, 'fa-angle-up': dropdowns.ustensiles}"></i>
+      </div>
+      <ul class="dropdown-menu btn-red" [class.show]="dropdowns.ustensiles" style="max-height: 200px; overflow-y: auto;">
+        @for (item of filteredUstensilList; track $index) {
+          <li><a class="dropdown-item" (click)="searchUstensils(item)">{{ item }}</a></li>
+        }
+        @empty {
+          <li><a class="dropdown-item">N'existe pas</a></li>
         }
       </ul>
     </div>
@@ -123,8 +141,20 @@
                   <strong>{{ ingredient.ingredient }}:</strong> {{ ingredient.quantity }}{{ ingredient.unit }}<br>
                 }
               </p>
-              <p class="card-text" style="max-height: 90px; overflow-y: auto; max-width: 40%;">{{ item.description }}</p>
+              <p class="card-text" style="max-height: 130px; overflow-y: auto; max-width: 40%; text-overflow: ellipsis;">
+                {{ item.description }}
+              </p>
             </div>
+          </div>
+        </div>
+      </div>
+     }
+     @empty {
+      <div class="container text-center">
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="display-1"></h1>
+            <p class="lead">Aucune recette ne correspond a votre recherche</p>
           </div>
         </div>
       </div>
