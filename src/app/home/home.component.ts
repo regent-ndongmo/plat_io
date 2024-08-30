@@ -51,7 +51,11 @@ export class HomeComponent implements OnInit {
   }
 
   toggleDropdown(dropdown: 'ingredients' | 'appareils' | 'ustensiles') {
+    console.log('regent')
     this.dropdowns[dropdown] = !this.dropdowns[dropdown];
+
+    //
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
 
   @HostListener('document:click', ['$event'])
@@ -331,6 +335,21 @@ export class HomeComponent implements OnInit {
     console.log("Filtered Ustensil List: ", this.filteredUstensilList);
 }
 
+
+//
+
+isDropdownOpen = false; // Track the dropdown state
+
+  ingredients: string[] = [
+    'Lait de coco', 'Sucre', 'Concombre', 'Citron Vert', 'Oignon', 'Riz blanc', 'Maïs', 'Crème fraiche', 'Pomme',
+    'Chocolat au lait', 'Jus de citron', 'Glaçons', 'Tomate', 'Poulet', 'Poivron rouge', 'Thon en miettes',
+    'Vinaigrette', 'Gruyère râpé', 'Œuf', 'Crème liquide', 'Crème de coco', 'Thon Rouge', 'Carotte', 'Coulis de tomate',
+    'Huile d\'olive', 'Œuf dur', 'Pâte feuilletée', 'Moutarde de Dijon', 'Sucre en Poudre', 'Beurre'
+  ];
+
+  toggleDropdown0() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
 
 
 }
