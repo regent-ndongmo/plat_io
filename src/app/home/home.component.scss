@@ -13,10 +13,6 @@
   }
 }
 
-.dropdown-menu{
-  padding-top: -50px;
-  width: 100%;
-}
 .dropdown-item{
   color: #fff;
   &:hover{
@@ -72,14 +68,14 @@
 .btn-content{
   margin-top: 10%;
 }
-.button input[type="text"]{
+input[type="text"]{
   border: none;
   background-color: transparent;
   flex-grow: 1;
-  width: 87%;
+  width: 100%;
   text-decoration: none;
   font-weight: bold;
-  color: #333;
+  color: #fff;
   border: none;
   box-shadow: none;
   outline: none;
@@ -92,11 +88,7 @@
 .input-group {
   margin: 0 auto;
 }
-.btn-group{
-  margin-right: 30px;
-  position: relative;
 
-}
 
 .btn-custom {
   background-color: #8000ff;
@@ -152,10 +144,35 @@
   justify-content: space-between;
 }
 
-.btn{
-  border-radius: 0 0px 0px 0;
-  width: 170px;
-  height: 69px;
+//
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+  user-select: none;
+  z-index: 888;
+  // margin-bottom: 50px;
+}
+.btn-group{
+  margin-right: 2%;
+  // position: absolute;
+
+}
+.btn-group1{
+  position: absolute;
+}
+.dropdown-trigger {
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-align: left;
+  transition: background-color 0.3s ease;
+  .content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 }
 
 .btn-dropdown{
@@ -165,6 +182,10 @@
     padding-top: 50px;
     margin: 0% 0% 0% 0%;
   }
+}
+.btn-d{
+  min-width: 170px;
+  min-height: 69px;
 }
 
 
@@ -187,48 +208,32 @@
 }
 
 
-
-.close-list-appareils{
+.dropdown-m {
   display: none;
-}
-.open-list-appareils{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-//
-.dropdown-container {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  user-select: none;
-}
-
-.dropdown-trigger {
-  background-color: #007bff;
+  // position: relative;
   color: white;
-  padding: 10px 15px;
-  text-align: left;
-  transition: background-color 0.3s ease;
-}
-
-.dropdown-men {
-  display: none;
-  position: absolute;
-  background-color: #007bff;
-  color: white;
-  width: 300px; /* Adjust width as needed */
-  z-index: 1;
+  z-index: 888;
   top: 100%;
   left: 0;
+  div{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    span{
+      white-space: nowrap;
+      &:hover{
+        color: #f2f2f2;
+      }
+    }
+  }
 }
 
-.dropdown-container .dropdown-men.show {
-  display: block;
+.dropdown-container .dropdown-m.show {
+  display: grid;
 }
 
 .dropdown-container .expanded {
   transform: rotate(180deg); /* Arrow rotation when expanded */
-  color: red;
+  // color: red;
 }
 

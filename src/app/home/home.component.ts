@@ -51,11 +51,24 @@ export class HomeComponent implements OnInit {
   }
 
   toggleDropdown(dropdown: 'ingredients' | 'appareils' | 'ustensiles') {
-    console.log('regent')
-    this.dropdowns[dropdown] = !this.dropdowns[dropdown];
-
-    //
-    this.isDropdownOpen = !this.isDropdownOpen;
+    // Vérifier si le dropdown sélectionné est déjà ouvert
+    if (this.dropdowns[dropdown]) {
+      // Si le dropdown est ouvert, fermer tous les dropdowns
+      for (const key in this.dropdowns) {
+        if (Object.prototype.hasOwnProperty.call(this.dropdowns, key)) {
+          this.dropdowns[key as 'ingredients' | 'appareils' | 'ustensiles'] = false;
+        }
+      }
+    } else {
+      // Si le dropdown n'est pas ouvert, fermer tous les dropdowns
+      for (const key in this.dropdowns) {
+        if (Object.prototype.hasOwnProperty.call(this.dropdowns, key)) {
+          this.dropdowns[key as 'ingredients' | 'appareils' | 'ustensiles'] = false;
+        }
+      }
+      // Ouvrir le dropdown sélectionné
+      this.dropdowns[dropdown] = true;
+    }
   }
 
   @HostListener('document:click', ['$event'])
@@ -334,22 +347,6 @@ export class HomeComponent implements OnInit {
     // Afficher les résultats filtrés dans la console
     console.log("Filtered Ustensil List: ", this.filteredUstensilList);
 }
-
-
-//
-
-isDropdownOpen = false; // Track the dropdown state
-
-  ingredients: string[] = [
-    'Lait de coco', 'Sucre', 'Concombre', 'Citron Vert', 'Oignon', 'Riz blanc', 'Maïs', 'Crème fraiche', 'Pomme',
-    'Chocolat au lait', 'Jus de citron', 'Glaçons', 'Tomate', 'Poulet', 'Poivron rouge', 'Thon en miettes',
-    'Vinaigrette', 'Gruyère râpé', 'Œuf', 'Crème liquide', 'Crème de coco', 'Thon Rouge', 'Carotte', 'Coulis de tomate',
-    'Huile d\'olive', 'Œuf dur', 'Pâte feuilletée', 'Moutarde de Dijon', 'Sucre en Poudre', 'Beurre'
-  ];
-
-  toggleDropdown0() {
-    this.isDropdownOpen = !this.isDropdownOpen;
-  }
 
 
 }
