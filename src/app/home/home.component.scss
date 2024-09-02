@@ -218,9 +218,12 @@ input[type="text"]{
   div{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
+    gap: 10px;
     span{
       white-space: nowrap;
+      width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       &:hover{
         color: #f2f2f2;
       }

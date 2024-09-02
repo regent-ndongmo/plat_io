@@ -94,7 +94,7 @@
     <!-- Dropdown Appareils -->
 
     <div class="btn-group mr-2">
-      <div class="dropdown-container">
+      <div class="dropdown-container" [ngClass]="{'btn-group2': dropdowns.appareils}">
         <div class="dropdown-trigger btn-green" [ngClass]="{'btn-dropdown': !dropdowns.appareils, 'btn-d': dropdowns.appareils}">
           <div class="content">
             <div>
@@ -129,7 +129,7 @@
     <!-- Dropdown Ustensiles -->
 
     <div class="btn-group ">
-      <div class="dropdown-container" [ngClass]="{'btn-group1': dropdowns.ustensiles}" >
+      <div class="dropdown-container" [ngClass]="{'btn-group2': dropdowns.ustensiles}" >
         <div class="dropdown-trigger btn-red" [ngClass]="{'btn-dropdown': !dropdowns.ustensiles, 'btn-d': dropdowns.ustensiles}">
           <div class="content">
             <div>
